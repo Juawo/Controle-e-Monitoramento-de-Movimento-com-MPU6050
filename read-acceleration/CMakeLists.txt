@@ -35,7 +35,10 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(read-acceleration read-acceleration.c )
+add_executable(read-acceleration 
+    read-acceleration.c 
+    src/acceleration_sensor.c
+    )
 
 pico_set_program_name(read-acceleration "read-acceleration")
 pico_set_program_version(read-acceleration "0.1")
@@ -46,11 +49,14 @@ pico_enable_stdio_usb(read-acceleration 1)
 
 # Add the standard library to the build
 target_link_libraries(read-acceleration
-        pico_stdlib)
+        pico_stdlib
+        hardware_i2c
+)
 
 # Add the standard include files to the build
 target_include_directories(read-acceleration PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
 # Add any user requested libraries
